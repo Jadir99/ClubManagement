@@ -42,4 +42,30 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    ////////////////////////////////////adherant/////////////////////////////////////
+    protected $table = 'users';
+    // one to many between admin and user(adherant) 
+    public function adherants(){
+        return $this->hasMany(User::class,'admin_id');
+    }
+
+    
+    // one to many between admin and feedback 
+    public function feedbacks(){
+        return $this->hasMany(feedback::class,'admin_id')->where('isadmin','=',1);
+    }
+
+    ////////////////////////////////////admin/////////////////////////////////////
+    
+    //user has one admin
+    public function admin(){
+        return $this->belongsTo(User::class, 'admin_id');
+    }
+
+    // adherant can make many reclamations
+    public function reclamations(){
+        return $this->hasMany(reclamtion::class,'adherant_id')->where('isadmin','=',0);
+    }
+
 }
