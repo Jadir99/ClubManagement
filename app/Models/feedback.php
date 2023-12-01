@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class feedback extends Model
+class Feedback extends Model
 {
     use HasFactory;
 
     // feedback has one reclmation
     public function reclamations(){
-        return $this->belongsTo(reclamtion::class);
+        return $this->belongsTo(Reclamation::class);
     }
 
     // feedback has one admin

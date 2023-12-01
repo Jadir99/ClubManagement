@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create("Reclamation", function (Blueprint $table) {
+        Schema::create("reclamations", function (Blueprint $table) {
             $table->id("NumReclamation");
             $table->text("CorpReclamation");
             $table->date('DateReclamation')->default(now());

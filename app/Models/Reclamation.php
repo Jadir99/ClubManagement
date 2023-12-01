@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class reclamtion extends Model
+class Reclamation extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'NumReclamation';
+    public $timestamps = false;
     // reclamation has one adherant
     public function adherant(){
         return $this->belongsTo(User::class);
@@ -16,6 +17,6 @@ class reclamtion extends Model
 
     // reclamation has many feedbacks 
     public function feedbacks(){
-        return $this->hasMany( feedback::class,'reclamation_id');
+        return $this->hasMany(Feedback::class,'reclamation_id');
     }
 }

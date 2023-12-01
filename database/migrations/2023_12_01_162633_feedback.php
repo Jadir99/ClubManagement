@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
 {
-    Schema::create('feedback', function (Blueprint $table) {
+    Schema::create('feedbacks', function (Blueprint $table) {
         $table->id();
         $table->text('response');
         $table->unsignedBigInteger('admin_id');
         $table->foreign('admin_id')->references('id')->on('users')->onUpdate('cascade');
         $table->unsignedBigInteger('reclamation_id');
-        $table->foreign('reclamation_id')->references('NumReclamation')->on('Reclamation')->onUpdate('cascade');
+        $table->foreign('reclamation_id')->references('NumReclamation')->on('reclamations')->onUpdate('cascade');
         
     });
 }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('feedback');
+        Schema::dropIfExists('feedbacks');
     }
 };

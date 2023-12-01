@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\reclamtion;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class adehrantController extends Controller
 {
@@ -11,7 +14,10 @@ class adehrantController extends Controller
      */
     public function index()
     {
-        //
+        // voir liste des reclamation + la poussibilite de modifier et supprimer un reclmation
+        $reclamations=Auth::user()->reclamations;
+        // dd($reclamations);
+        return view("adherant.index",["Reclamation"=> $reclamations]);
     }
 
     /**
@@ -19,7 +25,7 @@ class adehrantController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**

@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\adehrantController;
+use App\Http\Controllers\ReclamationController;
+use App\Models\Reclamation;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +22,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::resource('/reclamation', ReclamationController::class);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

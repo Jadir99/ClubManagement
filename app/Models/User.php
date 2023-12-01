@@ -53,7 +53,7 @@ class User extends Authenticatable
     
     // one to many between admin and feedback 
     public function feedbacks(){
-        return $this->hasMany(feedback::class,'admin_id')->where('isadmin','=',1);
+        return $this->hasMany(Feedback::class,'admin_id')->where('isadmin','=',1);
     }
 
     ////////////////////////////////////admin/////////////////////////////////////
@@ -65,7 +65,7 @@ class User extends Authenticatable
 
     // adherant can make many reclamations
     public function reclamations(){
-        return $this->hasMany(reclamtion::class,'adherant_id')->where('isadmin','=',0);
+        return $this->hasMany(Reclamation::class,'adherant_id');
     }
 
 }
