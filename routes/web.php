@@ -26,5 +26,5 @@ Auth::routes();
 
 Route::resource('/reclamation', ReclamationController::class);
 Route::resource('/feedback', feedbackController::class);
-
+Route::resource('/profile',adehrantController::class);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

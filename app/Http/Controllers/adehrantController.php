@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\reclamtion;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,9 +16,8 @@ class adehrantController extends Controller
     public function index()
     {
         // voir liste des reclamation + la poussibilite de modifier et supprimer un reclmation
-        $reclamations=Auth::user()->reclamations;
-        // dd($reclamations);
-        return view("adherant.index",["Reclamation"=> $reclamations]);
+        $profile=Auth::user();
+        return view("profile.index",["profile"=> $profile]);
     }
 
     /**
@@ -47,17 +47,26 @@ class adehrantController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(int $profile)
     {
-        //
+        $user=User::findorfail($profile);
+        return view('profile.update_profile',['user'=>$user]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
-        //
+        validator($request->all());
+        $user=User::findorfail($id);
+        $user->name= $request->name;
+        $user->age= $request->age;
+        $user->sexe= $request->sexe;
+        $user->Profession= $request->Profession;
+        $user->DateNaissance= $request->DateNaissance;
+        $user->update();
+        return redirect('profile')->with('success','success');
     }
 
     /**
