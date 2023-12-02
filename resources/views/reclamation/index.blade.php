@@ -8,7 +8,7 @@
     @csrf
     @method('delete')
     {{-- <div class="dropdown-divider"></div> <button type="button" class="dropdown-item text-danger" onclick="confirmation({{$item->NumReclamation}})">Delete</button>  --}}
-    <button>test</button>
+    <button>Suppr</button>
   </form>
   <br>
   <a class="dropdown-item" href="{{route('reclamation.edit',['reclamation'=>$item->NumReclamation ])}}">Edit</a>
