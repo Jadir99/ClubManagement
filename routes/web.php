@@ -3,6 +3,7 @@
 use App\Http\Controllers\adehrantController;
 use App\Http\Controllers\feedbackController;
 use App\Http\Controllers\ReclamationController;
+use App\Http\Controllers\adminController;
 use App\Models\Reclamation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +28,6 @@ Auth::routes();
 Route::resource('/reclamation', ReclamationController::class);
 Route::resource('/feedback', feedbackController::class);
 Route::resource('/profile',adehrantController::class);
+Route::resource('/admin',adminController::class);
+Route::patch('/admin.newadmin', [adminController::class, 'newadmin']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

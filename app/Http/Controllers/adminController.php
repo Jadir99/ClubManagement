@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class adminController extends Controller
@@ -11,7 +12,7 @@ class adminController extends Controller
      */
     public function index()
     {
-        //
+        return view("admin.index",["users"=> User::all()]);
     }
 
     /**
@@ -49,16 +50,26 @@ class adminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update( int $admin)
     {
-        //
+
+        // change the role of users
+        $admin = User::find($admin);
+        if ($admin->isadmin==0){$admin->isadmin=1;}
+        else {$admin->isadmin=0;}
+        $admin->update();
+        return redirect()->route('admin.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $user)
     {
-        //
+        $admin = User::find($user);
+        $admin->delete();
+        return redirect()->route('admin.index');
     }
+
+    
 }
