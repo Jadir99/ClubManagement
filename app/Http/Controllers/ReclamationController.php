@@ -16,7 +16,6 @@ class ReclamationController extends Controller
     {
         // voir liste des reclamation + la poussibilite de modifier et supprimer un reclmation
         $reclamations=Auth::user()->reclamations;
-        $clubs=Club::all();
         // dd($clubs);
         return view("reclamation.index",["reclamations"=> $reclamations]);
     }
@@ -44,7 +43,7 @@ class ReclamationController extends Controller
     $reclamation->CorpReclamation=$request->input('CorpReclamation');
     $reclamation->title=$request->input('title');
     $reclamation->club_id=$request->input('club_id');
-    $reclamation->adherant_id=1;
+    $reclamation->adherant_id=Auth::user()->id;
     $reclamation->save();
     return redirect()->route('reclamation.index');
     }

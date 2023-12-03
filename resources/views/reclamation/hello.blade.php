@@ -1,6 +1,4 @@
-
-
-@extends('reclamation.layout')
+@extends('layout')
 @section('content')
 @include('headerAdherant')
     <style>
@@ -73,18 +71,21 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
-              <form action="{{route('reclamation.update',['reclamation'=>$Reclamation->NumReclamation])}}" method="Post">
-                @csrf
-                @method('put')
+              <form action="{{route('reclamation.store')}}" method="Post">
+                    @csrf
                     <div class="form-group">
                         <label for="titre">Intitulé du réclamation</label>
-                        <input type="text" id="titre" name="title" value="{{$Reclamation->title}}">
+                        <input type="text" id="titre" name="title" placeholder="Entrez l'intitulé" required>
                     </div>
-                    
+                    <select name="club_id"class="form-select" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        
+                        <option value="1">One</option>
+                      </select><br>
                     <div class="form-group">
                         <label for="reclamation">Le contenu du réclamation</label>
-                        <textarea name="CorpReclamation" id="reclamation" cols="30" rows="10" 
-                            >{{$Reclamation->CorpReclamation}}</textarea>
+                        <textarea name="CorpReclamation" id="reclamation" cols="30" rows="10" placeholder="Entrez votre réclamation"
+                            required></textarea>
                     </div>
                     <div class="form-group">
                         <button type="submit">Envoyer</button>

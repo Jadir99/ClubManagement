@@ -1,19 +1,5 @@
 
-     <a href="{{ route('reclamation.create') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">ajouter reclamation</a>
-
-    @foreach ($reclamations as $item)
-   this <h1>{{$item->NumReclamation }}</h1> <br>
-   this <h1>{{$item->CorpReclamation}}</h1> <br>
-   <form action="{{route('reclamation.destroy',['reclamation'=>$item->NumReclamation ])}}" method="post" id="deleteForm-{{$item->NumReclamation}}">
-    @csrf
-    @method('delete')
-    {{-- <div class="dropdown-divider"></div> <button type="button" class="dropdown-item text-danger" onclick="confirmation({{$item->NumReclamation}})">Delete</button>  --}}
-    <button>Suppr</button>
-  </form>
-  <br>
-  <a class="dropdown-item" href="{{route('reclamation.edit',['reclamation'=>$item->NumReclamation ])}}">Edit</a>
-    @endforeach
-    @extends('layout')
+@extends('layout')
 
 @section('content')
     @include('headerAdherant')
@@ -62,6 +48,7 @@
                     <thead>
                         <tr>
                             <th>Intitulé de réclamation</th>
+                            <th>Club name</th>
                             <th>Contenu</th>
                             <th>État</th>
                             <th>action</th>
@@ -71,12 +58,13 @@
                       @foreach ($reclamations as $item)
                         <tr>
                             <td>{{$item->title}}</td>
+                            
+                          <td>{{$item->club->name}}</td>  
                             <td>{{$item->CorpReclamation}}</td>
                             @if ($item->etat==0)
                                 
                               <td class="etat-en-cours">En cours de traitement</td>
-                            @else
-                                
+                            @else 
                             <td class="etat-traite"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-feedback="Le problème de livraison a été résolu.">Traité</button></td>
                             @endif
                             <td> 
