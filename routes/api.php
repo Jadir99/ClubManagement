@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\ApiFeedbackController;
 use App\Http\Controllers\API\ApiReclamationController;
+use App\Http\Controllers\API\ApiClubController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::apiResource("/reclamation",ApiReclamationController::class);
+Route::apiResource("/Feedback",ApiFeedbackController::class);
+Route::apiResource("/Club",ApiClubController::class);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
