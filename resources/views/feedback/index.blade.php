@@ -93,7 +93,6 @@
                                                                         <div class="mb-3">
                                                                             {{$feedback->response}}
                                                                         </div>
-                                                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
                                                                     </form>
                                                                 </div>
                                                             </div>
