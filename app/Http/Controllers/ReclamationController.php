@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Club;
 use App\Models\Reclamation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +18,7 @@ class ReclamationController extends Controller
         // voir liste des reclamation + la poussibilite de modifier et supprimer un reclmation
         $reclamations=Auth::user()->reclamations;
         // dd($clubs);
-        return view("reclamation.index",["reclamations"=> $reclamations]);
+        return view("reclamation.index",["reclamations"=> $reclamations])->with('success','u have been add new reclamation');
     }
 
     /**

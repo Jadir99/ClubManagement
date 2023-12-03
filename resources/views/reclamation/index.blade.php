@@ -65,9 +65,29 @@
                                 
                               <td class="etat-en-cours">En cours de traitement</td>
                             @else 
-                            <td class="etat-traite"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-feedback="Le problème de livraison a été résolu.">Traité</button></td>
+                                @foreach ($item->feedbacks as $feedback)
+
+                                    <td class="etat-traite"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{$feedback->id}}" data-feedback="Le problème de livraison a été résolu.">Traité</button></td>
+                                    <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal{{$feedback->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Feedback de réclamation</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p id="modal-text">Feedback de l'administrateur.</p>
+                                                        <p id="modal-text">{{$feedback->response}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                @endforeach
+                                
                             @endif
-                            <td> 
+                            <td>
                                 <form action="{{route('reclamation.destroy',['reclamation'=>$item->NumReclamation ])}}" method="post" id="deleteForm-{{$item->NumReclamation}}">
                                   @csrf
                                   @method('delete')
@@ -84,20 +104,6 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Feedback de réclamation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="modal-text">Feedback de l'administrateur.</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     @include('footer')
 

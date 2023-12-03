@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Club;
+use App\Models\User;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 class ClubController extends Controller
@@ -14,7 +17,8 @@ class ClubController extends Controller
     public function index()
     {
         $clubs=Club::all();
-        return view("Club.index",['clubs'=>$clubs]);
+        $users=User::all()->where('isadmin',1);
+        return view("Club.index",['clubs'=>$clubs,'admins'=> $users]);
     }
 
     /**
@@ -22,7 +26,9 @@ class ClubController extends Controller
      */
     public function create()
     {
-        return view('Club.newClub');
+        
+        $users=User::all()->where('isadmin',1);
+        return view('Club.newClub',['admins'=> $users]);
     }
 
     /**
@@ -34,14 +40,18 @@ class ClubController extends Controller
         $request->validate([
             'club_name' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'required|string',
+            'image' => 'required|file',
         ]);
     
     $Club=new Club();
     $Club->name=$request->input('club_name');
     $Club->description=$request->input('description');
-    $Club->image=$request->input('image');
-    $Club->admin_id=Auth::user()->id;
+    echo "kjlkn";
+    $slug=str::slug($request->title,'-');
+    $newImageName=uniqid().'-'.$slug.'.'.$request->image->extension() ;
+    $request->image->move(public_path('images/club'), $newImageName);
+    $Club->image=$newImageName;
+    $Club->admin_id=$request->input('admin_id');
     $Club->save();
     return redirect()->route('Club.index');
     }
@@ -67,16 +77,36 @@ class ClubController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, int $id)
+{
+    $Club = Club::findOrFail($id);
+    $Club->name = $request->input('club_name');
+    $Club->description = $request->input('description');
+
+    if ($request->hasFile('image')) {
+        $slug = Str::slug($request->name, '-');
+        $newImageName = uniqid() . '-' . $slug . '.' . $request->image->extension();
+        $request->image->move(public_path('images/club'), $newImageName);
+        $Club->image = $newImageName;
     }
+    
+    echo $Club->admin_id;
+    if ($request->admin_id){
+    $Club->admin_id = $request->admin_id;}
+    
+    $Club->Update();
+
+    return redirect()->route('Club.index');
+}
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $club)
     {
-        //
+        echo $club;
+        $Club = Club::findOrFail($club);
+        $Club->delete();
+        return redirect()->back();
     }
 }

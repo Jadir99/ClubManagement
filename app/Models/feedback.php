@@ -12,7 +12,7 @@ class Feedback extends Model
 
     protected $table = 'feedbacks';
     // feedback has one reclmation
-    public function reclamations(){
+    public function reclamation(){
         return $this->belongsTo(Reclamation::class);
     }
 

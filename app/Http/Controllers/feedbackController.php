@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Club;
 use App\Models\Feedback;
 use App\Models\Reclamation;
 use Illuminate\Http\Request;
@@ -14,7 +15,14 @@ class feedbackController extends Controller
      */
     public function index()
     {
-        return view('/feedback.index',["reclamations"=>Reclamation::all()]);
+
+        $clubs=Club::all()->where('admin_id',Auth::user()->id);
+        // foreach($clubs as $club){
+        //     foreach($club->reclamations as $reclamation){
+        //         echo $reclamation;
+        //     }
+        // }
+        return view('/feedback.index',["clubs"=>$clubs]);
     }
 
     /**
@@ -30,17 +38,29 @@ class feedbackController extends Controller
      */
     public function store(Request $request)
     {
+        // validator($request->all());
+        // $feedback=new Feedback();
+        // $feedback->response=$request->input('response');
+        // $feedback->admin_id=Auth::user()->id;
+        // $feedback->reclamation_id=2;
+        // $feedback->save();
+        // $reclamation=session('reclamation');
+        // echo $reclamation;
+        // $rec =Reclamation::find($reclamation);
+        // $feedbacks=$rec->feedbacks();
+        // return view ('/feedback/Showfeedbacks',['reclamation'=>$reclamation,'feedbacks'=>$feedbacks]);
+        
+
         validator($request->all());
         $feedback=new Feedback();
         $feedback->response=$request->input('response');
         $feedback->admin_id=Auth::user()->id;
-        $feedback->reclamation_id=2;
+        $feedback->reclamation_id=$request->input('reclamation_id');
+        $reclamation=Reclamation::findorfail($request->input('reclamation_id'));
+        $reclamation->etat=1;
+        $reclamation->update();
         $feedback->save();
-        $reclamation=session('reclamation');
-        echo $reclamation;
-        $rec =Reclamation::find($reclamation);
-        $feedbacks=$rec->feedbacks();
-        return view ('/feedback/Showfeedbacks',['reclamation'=>$reclamation,'feedbacks'=>$feedbacks]);
+        return redirect()->route('feedback.index');
     }
 
     /**
