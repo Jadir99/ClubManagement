@@ -5,8 +5,8 @@ hello this for updating the reclmation
     @csrf
     @method('put')
     
-   
-  <textarea name="CorpReclamation" id="" cols="30" rows="10"></textarea>
+  <div>{{$Reclamation->title}}</div>
+  <textarea name="CorpReclamation" id="" cols="30" rows="10" >{{$Reclamation->CorpReclamation}}</textarea>
 
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Club;
 use App\Models\Reclamation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,8 @@ class ReclamationController extends Controller
     {
         // voir liste des reclamation + la poussibilite de modifier et supprimer un reclmation
         $reclamations=Auth::user()->reclamations;
-        // dd($reclamations);
+        $clubs=Club::all();
+        // dd($clubs);
         return view("reclamation.index",["reclamations"=> $reclamations]);
     }
 
@@ -24,7 +26,8 @@ class ReclamationController extends Controller
      */
     public function create()
     {
-        return view('reclamation.Addreclamation');
+        $clubs=Club::all();
+        return view('reclamation.Addreclamation',['clubs'=>$clubs]);
     }
 
     /**
@@ -34,9 +37,13 @@ class ReclamationController extends Controller
     {
         $request->validate([
             'CorpReclamation' => 'required',
+            'title' => 'required',
+            'club_id' => 'required',
     ]);
     $reclamation=new Reclamation();
     $reclamation->CorpReclamation=$request->input('CorpReclamation');
+    $reclamation->title=$request->input('title');
+    $reclamation->club_id=$request->input('club_id');
     $reclamation->adherant_id=1;
     $reclamation->save();
     return redirect()->route('reclamation.index');

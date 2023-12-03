@@ -19,4 +19,9 @@ class Reclamation extends Model
     public function feedbacks(){
         return $this->hasMany(Feedback::class,'reclamation_id');
     }
+
+    public function club()
+    {
+        return $this->belongsTo(Club::class, 'club_id');
+    }
 }

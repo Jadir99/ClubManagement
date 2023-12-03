@@ -13,10 +13,15 @@ return new class extends Migration
     {
         Schema::create("reclamations", function (Blueprint $table) {
             $table->id("NumReclamation");
+            $table->string("title");
             $table->text("CorpReclamation");
             $table->date('DateReclamation')->default(now());
+            $table->boolean("etat")->default(0);
             $table->unsignedBigInteger('adherant_id');
             $table->foreign('adherant_id')->references('id')->on('users')->onUpdate('cascade');
+            $table->unsignedBigInteger('club_id');
+            $table->foreign('club_id')->references('id')->on('clubs');
+
             
         });
     }
