@@ -27,6 +27,15 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+    protected function redirectTo(){
+    if (auth()->user()->is_admin) {
+        return '/feedback'; // Redirect admin users to a different view
+    }else if(auth()->user()->isroot) 
+    return '/Club';
+
+    return '/reclamation'; // Redirect regular users to a default view
+    }
+
 
     /**
      * Create a new controller instance.

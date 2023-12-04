@@ -14,11 +14,28 @@
                     <li class="nav-item active">
                         <a class="nav-link" id="connecter-button" href="{{ route('Club.index') }}">Gestions des clubs</a>
                     </li>
+                    <li><div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div></li>
+                    @if(Auth::user()->isadmin)
                     <li class="nav-item">
                         <a class="nav-link" id="sinscrire-button" href="{{ route('feedback.index') }}">Traiter les reclamations</a>
                     </li>
+                    @endif  
                     <li class="nav-item">
-                        <a class="nav-link" id="clubs-button" href="{{ route('home') }}">Déconnexion</a>
+                        <a class="nav-link"id="sinscrire-button"  href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
                     </li>
                 </ul>
             </div>

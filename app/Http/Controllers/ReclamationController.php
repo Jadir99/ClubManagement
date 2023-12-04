@@ -15,6 +15,9 @@ class ReclamationController extends Controller
      */
     public function index()
     {
+        // if is authenticate
+        if(!Auth::check())
+        return redirect()->back()->with("error","u are not the root");
         // voir liste des reclamation + la poussibilite de modifier et supprimer un reclmation
         $reclamations=Auth::user()->reclamations;
         // dd($clubs);
@@ -26,6 +29,10 @@ class ReclamationController extends Controller
      */
     public function create()
     {
+        // if is authenticate
+        if(!Auth::check())
+        return redirect()->back()->with("error","u are not the root");
+
         $clubs=Club::all();
         return view('reclamation.Addreclamation',['clubs'=>$clubs]);
     }
@@ -35,6 +42,10 @@ class ReclamationController extends Controller
      */
     public function store(Request $request)
     {
+        // if is authenticate
+        if(!Auth::check())
+        return redirect()->back()->with("error","u are not the root");
+
         $request->validate([
             'CorpReclamation' => 'required',
             'title' => 'required',
@@ -62,6 +73,10 @@ class ReclamationController extends Controller
      */
     public function edit(int $NumReclamation)
     {
+        // if is authenticate
+        if(!Auth::check())
+        return redirect()->back()->with("error","u are not the root");
+
         if(Reclamation::find($NumReclamation))
         return view("reclamation.UpdateReclamation",['Reclamation'=>Reclamation::find($NumReclamation )]);
     }
@@ -71,6 +86,10 @@ class ReclamationController extends Controller
      */
     public function update(Request $request, int $reclamation)
     {
+        // if is authenticate
+        if(!Auth::check())
+        return redirect()->back()->with("error","u are not the root");
+
         if(Reclamation::find($reclamation)){
         $rec=Reclamation::find($reclamation);
         echo $rec->CorpReclamation=$request->input('CorpReclamation');
@@ -85,6 +104,10 @@ class ReclamationController extends Controller
      */
     public function destroy(string $id)
     {
+        // if is authenticate
+        if(!Auth::check())
+        return redirect()->back()->with("error","u are not the root");
+    
         $reclamation=Reclamation::find($id);
         $reclamation->delete();
         return redirect()->route('reclamation.index');

@@ -12,11 +12,28 @@
                         <a class="nav-link" id="connecter-button" href="{{ route('reclamation.create') }}">Ajouter un
                             reclamation</a>
                     </li>
+                    <li>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+    
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" id="sinscrire-button" href="{{ route('reclamation.index') }}">Mes reclamations</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="clubs-button" href="{{ route('home') }}">Déconnexion</a>
+                        <a class="nav-link" id="sinscrire-button"  href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                      document.getElementById('logout-form').submit();">
+                         {{ __('Logout') }}
+                        </a>
                     </li>
                 </ul>
             </div>

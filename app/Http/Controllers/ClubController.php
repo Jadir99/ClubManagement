@@ -16,6 +16,10 @@ class ClubController extends Controller
      */
     public function index()
     {
+// if the user are aroot so continnue
+if(!auth::user()->isroot)
+return redirect()->back()->with("error","u are not the root");
+
         $clubs=Club::all();
         $users=User::all()->where('isadmin',1);
         return view("Club.index",['clubs'=>$clubs,'admins'=> $users]);
@@ -26,7 +30,10 @@ class ClubController extends Controller
      */
     public function create()
     {
-        
+        // if the user are aroot so continnue
+if(!auth::user()->isroot)
+return redirect()->back()->with("error","u are not the root");
+
         $users=User::all()->where('isadmin',1);
         return view('Club.newClub',['admins'=> $users]);
     }
@@ -36,7 +43,10 @@ class ClubController extends Controller
      */
     public function store(Request $request)
     {
-        
+  // if the user are aroot so continnue
+if(!auth::user()->isroot)
+return redirect()->back()->with("error","u are not the root");
+      
         $request->validate([
             'club_name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -61,6 +71,10 @@ class ClubController extends Controller
      */
     public function show(int $id)
     {
+        // if the user are aroot so continnue
+if(!auth::user()->isroot)
+return redirect()->back()->with("error","u are not the root");
+
         // afficher des reclmations of club
         $reclamations=Club::find($id)->reclamations;
         return view ('Club.showreclamations',['reclamations'=>$reclamations]);
@@ -79,6 +93,10 @@ class ClubController extends Controller
      */
     public function update(Request $request, int $id)
 {
+    // if the user are aroot so continnue
+if(!auth::user()->isroot)
+return redirect()->back()->with("error","u are not the root");
+
     $Club = Club::findOrFail($id);
     $Club->name = $request->input('club_name');
     $Club->description = $request->input('description');
@@ -104,6 +122,10 @@ class ClubController extends Controller
      */
     public function destroy(int $club)
     {
+        // if the user are aroot so continnue
+if(!auth::user()->isroot)
+return redirect()->back()->with("error","u are not the root");
+
         echo $club;
         $Club = Club::findOrFail($club);
         $Club->delete();

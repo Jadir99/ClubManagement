@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Club;
 use App\Models\Reclamation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +17,7 @@ class ApiReclamationController  extends Controller
      */
     public function index()
     {
-        $reclamations = Auth::user()->reclamations;
+        $reclamations = User::all();
 
         return response()->json(['reclamations' => $reclamations], 200);
     }
