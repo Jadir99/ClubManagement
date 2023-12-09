@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Club;
 use App\Models\Reclamation;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,11 +12,11 @@ class ReclamationController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct(){
+        $this->middleware("normale_user");
+    }
     public function index()
     {
-        // if is authenticate
-        if(!Auth::check() || (Auth::user()->isadmin==1) || (Auth::user()->isroot==1))
-        return redirect()->back()->with("error","u are not the root");
         // voir liste des reclamation + la poussibilite de modifier et supprimer un reclmation
         $reclamations=Auth::user()->reclamations;
         // dd($clubs);
@@ -29,9 +28,6 @@ class ReclamationController extends Controller
      */
     public function create()
     {
-      // if is authenticate
-      if(!Auth::check() || (Auth::user()->isadmin==1) || (Auth::user()->isroot==1))
-      return redirect()->back()->with("error","u are not the root");
 
         $clubs=Club::all();
         return view('reclamation.Addreclamation',['clubs'=>$clubs]);
@@ -42,9 +38,6 @@ class ReclamationController extends Controller
      */
     public function store(Request $request)
     {
-        // if is authenticate
-        if(!Auth::check() || (Auth::user()->isadmin==1) || (Auth::user()->isroot==1))
-        return redirect()->back()->with("error","u are not the root");
 
         $request->validate([
             'CorpReclamation' => 'required',
@@ -73,9 +66,6 @@ class ReclamationController extends Controller
      */
     public function edit(int $NumReclamation)
     {
-        // if is authenticate
-        if(!Auth::check() || (Auth::user()->isadmin==1) || (Auth::user()->isroot==1))
-        return redirect()->back()->with("error","u are not the root");
 
         if(Reclamation::find($NumReclamation))
         return view("reclamation.UpdateReclamation",['Reclamation'=>Reclamation::find($NumReclamation )]);
@@ -86,9 +76,6 @@ class ReclamationController extends Controller
      */
     public function update(Request $request, int $reclamation)
     {
-        // if is authenticate
-        if(!Auth::check() || (Auth::user()->isadmin==1) || (Auth::user()->isroot==1))
-        return redirect()->back()->with("error","u are not the root");
 
         if(Reclamation::find($reclamation)){
         $rec=Reclamation::find($reclamation);
@@ -104,9 +91,6 @@ class ReclamationController extends Controller
      */
     public function destroy(string $id)
     {
-        // if is authenticate
-        if(!Auth::check() || (Auth::user()->isadmin==1) || (Auth::user()->isroot==1))
-        return redirect()->back()->with("error","u are not the root");
     
         $reclamation=Reclamation::find($id);
         $reclamation->delete();

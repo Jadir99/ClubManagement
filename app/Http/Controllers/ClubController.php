@@ -7,18 +7,19 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
 
 class ClubController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     public function __construct(){
+        $this->middleware("root");
+     }
     public function index()
     {
-// if the user are aroot so continnue
-if(!auth::user()->isroot)
-return redirect()->back()->with("error","u are not the root");
+
 
         $clubs=Club::all();
         $users=User::all()->where('isadmin',1);
@@ -30,10 +31,6 @@ return redirect()->back()->with("error","u are not the root");
      */
     public function create()
     {
-        // if the user are aroot so continnue
-if(!auth::user()->isroot)
-return redirect()->back()->with("error","u are not the root");
-
         $users=User::all()->where('isadmin',1);
         return view('Club.newClub',['admins'=> $users]);
     }
@@ -43,9 +40,6 @@ return redirect()->back()->with("error","u are not the root");
      */
     public function store(Request $request)
     {
-  // if the user are aroot so continnue
-if(!auth::user()->isroot)
-return redirect()->back()->with("error","u are not the root");
       
         $request->validate([
             'club_name' => 'required|string|max:255',
@@ -71,9 +65,6 @@ return redirect()->back()->with("error","u are not the root");
      */
     public function show(int $id)
     {
-        // if the user are aroot so continnue
-if(!auth::user()->isroot)
-return redirect()->back()->with("error","u are not the root");
 
         // afficher des reclmations of club
         $reclamations=Club::find($id)->reclamations;
@@ -93,9 +84,6 @@ return redirect()->back()->with("error","u are not the root");
      */
     public function update(Request $request, int $id)
 {
-    // if the user are aroot so continnue
-if(!auth::user()->isroot)
-return redirect()->back()->with("error","u are not the root");
 
     $Club = Club::findOrFail($id);
     $Club->name = $request->input('club_name');
@@ -122,9 +110,6 @@ return redirect()->back()->with("error","u are not the root");
      */
     public function destroy(int $club)
     {
-        // if the user are aroot so continnue
-if(!auth::user()->isroot)
-return redirect()->back()->with("error","u are not the root");
 
         echo $club;
         $Club = Club::findOrFail($club);

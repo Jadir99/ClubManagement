@@ -13,11 +13,12 @@ class feedbackController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct(){
+        $this->middleware("admin");
+    }
     public function index()
     {
-// if the user are admin so continnue
-if(Auth::user()->isadmin==0 )
-return redirect()->back()->with("error","u are not the root");
+
         $clubs=Club::all()->where('admin_id',Auth::user()->id);
         // foreach($clubs as $club){
         //     foreach($club->reclamations as $reclamation){
@@ -41,9 +42,6 @@ return redirect()->back()->with("error","u are not the root");
     public function store(Request $request)
     {
         
-// if the user are admin so continnue
-if(!Auth::user()->isadmin )
-return redirect()->back()->with("error","u are not the root");
 
         validator($request->all());
         $feedback=new Feedback();
@@ -62,9 +60,6 @@ return redirect()->back()->with("error","u are not the root");
      */
     public function show(int $NumReclamation)
     {
-    // if the user are admin so continnue
-if(!auth::user()->isadmin)
-return redirect()->back()->with("error","u are not the root");
         $reclamation = Reclamation::findOrfail($NumReclamation);
         $feedbacks= $reclamation->feedbacks;
         // dd($feedbacks);
@@ -76,9 +71,6 @@ return redirect()->back()->with("error","u are not the root");
      */
     public function edit(int $feedback)
     {
-        // if the user are admin so continnue
-if(!auth::user()->isadmin)
-return redirect()->back()->with("error","u are not the root");
         return view('feedback.updatefeedback',['feedback'=>Feedback::findorfail($feedback)]);
     }
 
@@ -87,12 +79,6 @@ return redirect()->back()->with("error","u are not the root");
      */
     public function update(Request $request, string $feedback)
     {
-        // if the user are aroot so continnue
-if(!auth::user()->isadmin)
-return redirect()->back()->with("error","u are not the root");
-        // if the user are admin so continnue
-if(!auth::user()->isadmin)
-return redirect()->back()->with("error","u are not the root");
         validator($request->all());
         $updatefeedback=feedback::findorfail($feedback);
         // echo $request->input('response');
@@ -108,9 +94,6 @@ return redirect()->back()->with("error","u are not the root");
      */
     public function destroy(int $feedback)
     {
-        // if the user are aroot so continnue
-if(!auth::user()->isadmin)
-return redirect()->back()->with("error","u are not the root");
         $feedback=feedback::findorfail($feedback);
         $feedback->delete();
         $reclamation = Reclamation::findOrfail(session('reclamation'));
