@@ -15,7 +15,9 @@ class feedbackController extends Controller
      */
     public function index()
     {
-
+// if the user are admin so continnue
+if(Auth::user()->isadmin==0 )
+return redirect()->back()->with("error","u are not the root");
         $clubs=Club::all()->where('admin_id',Auth::user()->id);
         // foreach($clubs as $club){
         //     foreach($club->reclamations as $reclamation){
@@ -40,7 +42,7 @@ class feedbackController extends Controller
     {
         
 // if the user are admin so continnue
-if(!auth::user()->isadmin)
+if(!Auth::user()->isadmin )
 return redirect()->back()->with("error","u are not the root");
 
         validator($request->all());

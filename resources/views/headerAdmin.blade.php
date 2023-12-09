@@ -8,13 +8,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
+                @if (Auth::user()->isroot)
                     <li class="nav-item active">
-                        {{-- <a class="nav-link" id="connecter-button" href="{{ route('') }}">Gestions des admins</a> --}}
+                        <a class="nav-link" id="connecter-button" href="{{ route('admin.index') }}">Gestions des admins</a>
                     </li>
+                  
                     <li class="nav-item active">
                         <a class="nav-link" id="connecter-button" href="{{ route('Club.index') }}">Gestions des clubs</a>
                     </li>
-                    <li><div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li>
+                @endif 
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
@@ -35,6 +39,11 @@
                            onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Bonjour {{ Auth::user()->name }}
                         </a>
                     </li>
                 </ul>

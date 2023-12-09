@@ -60,11 +60,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h2>Ajouter un administrateur</h2>
-                <!-- Bouton pour ouvrir le modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAdminModal">
-                    Ajouter un administrateur
-                </button>
+                
 
                 <!-- Formulaire d'ajout d'administrateur dans le modal -->
                <!-- Formulaire d'ajout d'administrateur dans le modal -->

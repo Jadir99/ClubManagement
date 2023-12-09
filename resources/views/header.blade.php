@@ -10,6 +10,24 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     {{-- @guest --}}
+                    @if ((Auth::check()) && (Auth::user()) && (Auth::user()->isadmin==1) && (!Auth::user()->isroot))
+                   
+                    <li class="nav-item active">
+                        <a class="nav-link" id="connecter-button" href="{{route('feedback.index')}}">Feedback</a>
+                    </li>
+                    @endif
+                    @if ((Auth::check()) && (Auth::user()) && (Auth::user()->isadmin==0) && (Auth::user()->isroot))
+                   
+                    <li class="nav-item active">
+                        <a class="nav-link" id="connecter-button" href="{{route('Club.index')}}">Gestion des clubs</a>
+                    </li>
+                    @endif
+                    @if ((Auth::check()) && (Auth::user()) && (Auth::user()->isadmin==0) && (!Auth::user()->isroot))
+                   
+                    <li class="nav-item active">
+                        <a class="nav-link" id="connecter-button" href="{{route('reclamation.index')}}">Reclamations</a>
+                    </li>
+                    @endif
                     @if (!(Auth::check()))
                    
                     <li class="nav-item active">
@@ -27,7 +45,7 @@
                             <a class="nav-link" id="connecter-button" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                                {{ __('Deconnexion') }}
                             </a>
     
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

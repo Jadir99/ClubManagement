@@ -13,6 +13,7 @@ class adehrantController extends Controller
     /**
      * Display a listing of the resource.
      */
+    
     public function index()
     {
         // voir liste des reclamation + la poussibilite de modifier et supprimer un reclmation

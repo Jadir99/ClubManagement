@@ -91,16 +91,19 @@ class ApiReclamationController  extends Controller
     public function update(Request $request, int $reclamation)
     {
         $reclamationModel = Reclamation::find($reclamation);
-
+    
         if (!$reclamationModel) {
             return response()->json(['error' => 'Reclamation not found'], 404);
         }
+    
+        // $reclamationModel->CorpReclamation = $request->input('CorpReclamation');
+        $reclamationModel->CorpReclamation =  $request->input('CorpReclamation');
 
-        $reclamationModel->CorpReclamation = $request->input('CorpReclamation');
-        $reclamationModel->update();
-
+        $reclamationModel->save();  // Use save() instead of update()
+    
         return response()->json(['message' => 'Reclamation updated successfully'], 200);
     }
+    
 
     /**
      * Remove the specified resource from storage.

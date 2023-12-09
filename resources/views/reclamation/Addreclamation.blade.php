@@ -90,12 +90,11 @@
                         <input type="text" id="titre" name="title" placeholder="Entrez l'intitulé" required>
                     </div>
                     <select name="club_id"class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
+                        <option selected>Select a club</option>
                         @foreach ($clubs as $item)
                             <option value="{{$item->id}}">{{$item->name}}</option>
                         @endforeach
-                        <option value="1">One</option>
-                      </select><br>
+                      </select><br> <br>
                     <div class="form-group">
                         <label for="reclamation">Le contenu du réclamation</label>
                         <textarea name="CorpReclamation" id="reclamation" cols="30" rows="10" placeholder="Entrez votre réclamation"
