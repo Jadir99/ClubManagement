@@ -1,7 +1,8 @@
 @extends('layout')
 
 @section('content')
-    @include('headerAdmin')
+
+@include('header')
     <style>
         /* Vos styles CSS ici */
 
@@ -25,7 +26,9 @@
 
         /* Autres styles... */
     </style>
-
+<script>
+    swal("Hello, world!");
+</script>
     <div class="container">
         <div class="row">
             <div class="col-md-6">

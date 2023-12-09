@@ -2,7 +2,7 @@
 @extends('layout')
 
 @section('content')
-    @include('headerAdherant')
+@include('header')
 
     <style>
         /* Styles existants */

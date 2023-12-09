@@ -33,6 +33,12 @@
         media="screen">
     <!-- CSS Bootstrap (insérez ces balises dans la section head) -->
     <!-- JS Bootstrap (insérez ces balises à la fin du body) -->
+    <!-- Include Sweet Alert CSS -->
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/sweetalert/sweetalert.css') }}">
+
+<!-- Include Sweet Alert JS -->
+<script src="{{ asset('vendor/sweetalert/sweetalert.min.js') }}"></script>
+
 
 </head>
 

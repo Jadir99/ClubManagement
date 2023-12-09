@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Str;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ClubController extends Controller
 {
@@ -20,9 +21,12 @@ class ClubController extends Controller
     public function index()
     {
 
-
+        
         $clubs=Club::all();
         $users=User::all()->where('isadmin',1);
+        
+        // Trigger a success alert using SweetAlert
+        Alert::success('Success', 'Data loaded successfully!');
         return view("Club.index",['clubs'=>$clubs,'admins'=> $users]);
     }
 
@@ -57,7 +61,7 @@ class ClubController extends Controller
     $Club->image=$newImageName;
     $Club->admin_id=$request->input('admin_id');
     $Club->save();
-    return redirect()->route('Club.index');
+    return redirect()->route('Club.index')->withSuccess('Task Created Successfully!');
     }
 
     /**

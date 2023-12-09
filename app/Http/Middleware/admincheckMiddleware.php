@@ -18,7 +18,6 @@ class admincheckMiddleware
     {
         if(auth::check() && Auth::user()->isadmin){
         return $next($request);}
-
         return redirect()->back()->with("error","u are not an admin");
 
     }

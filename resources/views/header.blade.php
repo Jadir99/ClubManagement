@@ -10,19 +10,25 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     {{-- @guest --}}
-                    @if ((Auth::check()) && (Auth::user()) && (Auth::user()->isadmin==1) && (!Auth::user()->isroot))
-                   
+                    @if ((Auth::check()) && (Auth::user()) && (!Auth::user()->isadmin) && (!Auth::user()->isroot))
                     <li class="nav-item active">
-                        <a class="nav-link" id="connecter-button" href="{{route('feedback.index')}}">Feedback</a>
+                        <a class="nav-link" id="connecter-button" href="{{route('reclamation.create') }}">Ajouter un
+                        reclamation</a>
                     </li>
                     @endif
-                    @if ((Auth::check()) && (Auth::user()) && (Auth::user()->isadmin==0) && (Auth::user()->isroot))
+                    @if ((Auth::check()) && (Auth::user()) && (Auth::user()->isadmin) && (!Auth::user()->isroot))
+                   
+                    <li class="nav-item active">
+                        <a class="nav-link" id="connecter-button" href="{{route('feedback.index')}}">Gestion des reclamations</a>
+                    </li>
+                    @endif
+                    @if ((Auth::check()) && (Auth::user()) && (!Auth::user()->isadmin) && (Auth::user()->isroot))
                    
                     <li class="nav-item active">
                         <a class="nav-link" id="connecter-button" href="{{route('Club.index')}}">Gestion des clubs</a>
                     </li>
                     @endif
-                    @if ((Auth::check()) && (Auth::user()) && (Auth::user()->isadmin==0) && (!Auth::user()->isroot))
+                    @if ((Auth::check()) && (Auth::user()) && (!Auth::user()->isadmin) && (!Auth::user()->isroot))
                    
                     <li class="nav-item active">
                         <a class="nav-link" id="connecter-button" href="{{route('reclamation.index')}}">Reclamations</a>
@@ -37,9 +43,6 @@
                         <a class="nav-link" id="sinscrire-button" href="{{route('register')}}">S'inscrire</a>
                     </li>
                     @endif
-                    <li class="nav-item">
-                        <a class="nav-link" id="clubs-button" href="gallery.html">Nos clubs</a>
-                    </li>
                     @if((Auth::check()))
                     <li class="nav-item">
                             <a class="nav-link" id="connecter-button" href="{{ route('logout') }}"
@@ -51,6 +54,11 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                             {{ Auth::user()->name }}
+                        </a>
                     </li>
                     @endif
                 </ul>

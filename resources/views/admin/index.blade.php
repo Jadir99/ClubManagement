@@ -1,8 +1,7 @@
-
 @extends('layout')
 
 @section('content')
-    @include('headerAdmin')
+    @include('header')
     <style>
          .custom-table {
             width:  200%; /* Ajustement de la largeur de la table */

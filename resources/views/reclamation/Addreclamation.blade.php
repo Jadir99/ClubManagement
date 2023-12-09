@@ -12,7 +12,7 @@
 
  @extends('layout')
 @section('content')
-@include('headerAdherant')
+@include('header')
     <style>
         .custom-form {
             background-color: #FFFFFF;

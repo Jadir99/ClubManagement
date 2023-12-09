@@ -2,7 +2,7 @@
 @extends('layout')
 
 @section('content')
-    @include('headerAdmin')
+@include('header')
 
     <style>
         /* Styles existants */
