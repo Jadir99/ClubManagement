@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Club;
+use App\Models\Reclamation;
+
 use Illuminate\Http\Request;
 
 class welcomme extends Controller
@@ -12,7 +14,16 @@ class welcomme extends Controller
      */
     public function index()
     {
-        return view('welcome',['clubs'=>Club::all()]);
+        $clubs = Club::all();
+
+        $recentReclamations = Reclamation::with('adherant')
+            ->orderBy('NumReclamation', 'desc')
+            ->take(3)
+            ->get();
+        return view('welcome', [
+            'clubs' => $clubs,
+            'reclamations' => $recentReclamations,
+        ]);
     }
 
     /**

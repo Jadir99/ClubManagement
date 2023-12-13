@@ -12,7 +12,7 @@ class adminController extends Controller
      */
     public function index()
     {
-        return view("admin.index",["users"=> User::all()]);
+        return view('admin.index', ['users' => User::all()]);
     }
 
     /**
@@ -50,15 +50,19 @@ class adminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update( int $admin)
+    public function update(int $admin)
     {
-
         // change the role of users
         $admin = User::find($admin);
-        if ($admin->isadmin==0){$admin->isadmin=1;}
-        else {$admin->isadmin=0;}
+        if ($admin->isadmin == 0) {
+            $admin->isadmin = 1;
+        } else {
+            $admin->isadmin = 0;
+        }
         $admin->update();
-        return redirect()->route('admin.index');
+        return redirect()
+            ->route('admin.index')
+            ->with('success', 'Opération a été effectué avec succès!');
     }
 
     /**
@@ -68,8 +72,8 @@ class adminController extends Controller
     {
         $admin = User::find($user);
         $admin->delete();
-        return redirect()->route('admin.index');
+        return redirect()
+            ->route('admin.index')
+            ->with('success', 'Utilisateur supprimé avec succès!');
     }
-
-    
 }

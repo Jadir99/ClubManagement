@@ -27,6 +27,10 @@
                     <li class="nav-item active">
                         <a class="nav-link" id="connecter-button" href="{{route('Club.index')}}">Gestion des clubs</a>
                     </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" id="connecter-button" href="{{route('admin.index')}}">Gestion des admins</a>
+                    </li>
                     @endif
                     @if ((Auth::check()) && (Auth::user()) && (!Auth::user()->isadmin) && (!Auth::user()->isroot))
                    

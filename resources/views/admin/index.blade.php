@@ -3,13 +3,11 @@
 @section('content')
     @include('header')
     <style>
-         .custom-table {
-            width:  200%; /* Ajustement de la largeur de la table */
+        /* Styles existants */
+        .custom-table {
+            width: 100%;
             border-collapse: collapse;
             margin-top: 30px;
-            margin-bottom: 30px;
-            margin-left: auto; /* Centre la table horizontalement */
-            margin-right: auto; /* Centre la table horizontalement */
         }
 
         .custom-table th,
@@ -36,152 +34,161 @@
             cursor: pointer;
         }
 
-        /* Vos autres styles... */
+        /* Ajout de styles pour la table des administrateurs */
         .table-container {
             margin-top: 30px;
-            margin-bottom: 30px;
+        }
+
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .table-container th,
+        .table-container td {
+            border: 1px solid #ccc;
+            padding: 8px;
             text-align: center;
         }
 
-        .header_section {
-            margin-bottom: 30px;
+        .table-container th {
+            background-color: #f2f2f2;
         }
 
-        .footer_section {
-            margin-top: 30px;
+        /* Nouveaux styles pour la mise en page */
+        .table-container {
+            display: flex;
+            justify-content: center;
         }
 
-       
-
+        .table-container table {
+            max-width: 80%;
+        }
     </style>
 
     <!-- Votre contenu -->
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                
-
-                <!-- Formulaire d'ajout d'administrateur dans le modal -->
-               <!-- Formulaire d'ajout d'administrateur dans le modal -->
-               <div class="modal" id="addAdminModal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Ajouter un administrateur</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+            <div class="col-md-12">
+                <div class="mb-4">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Succès!</strong> {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <!-- Formulaire pour ajouter un administrateur -->
-                            <form>
-                                <div class="mb-3">
-                                    <label for="nom" class="form-label">Nom</label>
-                                    <input type="text" class="form-control" id="nom" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="prenom" class="form-label">Prénom</label>
-                                    <input type="text" class="form-control" id="prenom" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Mot de passe</label>
-                                    <input type="password" class="form-control" id="password" required>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            <button type="button" class="btn btn-primary">Enregistrer</button>
-                        </div>
-                    </div>
+                    @endif
                 </div>
-            </div>
-
-                <!-- Tableau pour afficher les administrateurs -->
                 <div class="table-container">
                     <table class="table custom-table">
                         <thead>
                             <tr>
                                 <th>Nom</th>
                                 <th>Email</th>
-                                <th>profil</th>
-                                <th>Actions</th>
+                                <th>Profil</th>
+                                <th>Affectation</th>
+                                <th>Suppression</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($users as $item)
                                 <tr>
-                                    <td>{{$item->name}}</td>
-                                    <td>{{$item->email}}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->email }}</td>
                                     <td>
-                                        @if ($item->isadmin==1)
-                                            Admin
+                                        @if ($item->isadmin == 1)
+                                            Administrateur
                                         @else
-                                            user
+                                            Utilisateur
                                         @endif
                                     </td>
                                     <td>
-                                        <form method="POST" action="{{route('admin.update',['admin'=>$item->id ])}}">
-                                            @csrf
-                                            @method('put')
-                                                @if ($item->isadmin)
-                                                    <button type="submit" class="btn btn-info" >return to user</button>
-                                                @else
-                                                    <button type="sublit" class="btn btn-info" >return to admin</button>
-                                                @endif
-                                        </form>
-                                        <form action="{{route('admin.destroy',['admin'=>$item->id ])}}" method="post" >
-                                            @csrf
-                                            @method('delete')
-                                            {{-- <div class="dropdown-divider"></div> <button type="button" class="dropdown-item text-danger" onclick="confirmation({{$item->NumReclamation}})">Delete</button>  --}}
-                                            <button class="btn btn-danger">Suppr</button>
-                                        </form>
-                                        {{-- <button type="button" class="btn btn-info" data-bs-toggle="modal"data-bs-target="#editAdminModal">Modifier</button>
-                                        <button type="button" class="btn btn-danger">Supprimer</button> --}}
+                                        <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                            data-bs-target="#updateUserModal{{ $item->id }}">
+                                            @if ($item->isadmin)
+                                                Retourner à l'utilisateur
+                                            @else
+                                                Passer à admin
+                                            @endif
+                                        </button>
+
+                                        <div class="modal" id="updateUserModal{{ $item->id }}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Confirmation de mise à jour</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            @if ($item->isadmin)
+                                                                Êtes-vous sûr de vouloir retourner cet utilisateur ?
+                                                            @else
+                                                                Êtes-vous sûr de vouloir passer cet utilisateur à admin ?
+                                                            @endif
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Annuler</button>
+                                                        <form method="POST"
+                                                            action="{{ route('admin.update', ['admin' => $item->id]) }}">
+                                                            @csrf
+                                                            @method('put')
+                                                            <button type="submit" class="btn btn-info">
+                                                                @if ($item->isadmin)
+                                                                    Retourner à l'utilisateur
+                                                                @else
+                                                                    Passer à admin
+                                                                @endif
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#deleteUserModal{{ $item->id }}">
+                                            Supprimer
+                                        </button>
+
+                                        <div class="modal" id="deleteUserModal{{ $item->id }}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Supprimer un utilisateur</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Annuler</button>
+                                                        <form action="{{ route('admin.destroy', ['admin' => $item->id]) }}"
+                                                            method="post" id="deleteForm{{ $item->id }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-
-                <div class="modal" id="editAdminModal" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Modifier un administrateur</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- Formulaire pour modifier un administrateur -->
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="editNom" class="form-label">Nom</label>
-                                        <input type="text" class="form-control" id="editNom" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editPrenom" class="form-label">Prénom</label>
-                                        <input type="text" class="form-control" id="editPrenom" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="editEmail" required>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                <button type="button" class="btn btn-primary">Enregistrer</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
     @include('footer')
-@endsectionc:\Users\hp\Downloads\front-gestion_reclamation\front-gestion_reclamation\resources\views\headerAdmin.blade.php
+@endsection

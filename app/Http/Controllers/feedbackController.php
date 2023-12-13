@@ -52,7 +52,8 @@ class feedbackController extends Controller
         $reclamation->etat=1;
         $reclamation->update();
         $feedback->save();
-        return redirect()->route('feedback.index');
+        return redirect()->route('feedback.index')->with('success', 'Feedback ajoutée avec succès!');
+
     }
 
     /**

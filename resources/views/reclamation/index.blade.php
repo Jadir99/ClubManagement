@@ -1,8 +1,7 @@
-
 @extends('layout')
 
 @section('content')
-@include('header')
+    @include('header')
 
     <style>
         /* Styles existants */
@@ -35,7 +34,8 @@
             padding: 5px 10px;
             cursor: pointer;
         }
-        #bodyReclamation{
+
+        #bodyReclamation {
             padding: 40px;
         }
     </style>
@@ -43,6 +43,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12" id="bodyReclamation">
+                <div class="mb-4">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Succès!</strong> {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                </div>
                 <h1>Liste des réclamations</h1>
                 <table class="custom-table">
                     <thead>
@@ -55,60 +63,76 @@
                         </tr>
                     </thead>
                     <tbody>
-                      @foreach ($reclamations as $item)
-                        <tr>
-                            <td>{{$item->title}}</td>
-                            
-                          <td>{{$item->club->name}}</td>  
-                            <td>{{$item->CorpReclamation}}</td>
-                            @if ($item->etat==0)
-                                
-                              <td class="etat-en-cours">En cours de traitement</td>
-                            @else 
-                                @foreach ($item->feedbacks as $feedback)
+                        @foreach ($reclamations as $item)
+                            <tr>
+                                <td>{{ $item->title }}</td>
 
-                                    <td class="etat-traite"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{$feedback->id}}" data-feedback="Le problème de livraison a été résolu.">Traité</button></td>
-                                    <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal{{$feedback->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <td>{{ $item->club->name }}</td>
+                                <td>{{ $item->CorpReclamation }}</td>
+                                @if ($item->etat == 0)
+                                    <td class="etat-en-cours">En cours de traitement</td>
+                                @else
+                                    @foreach ($item->feedbacks as $feedback)
+                                        <td class="etat-traite"><button type="button" class="btn btn-primary"
+                                                data-bs-toggle="modal" data-bs-target="#exampleModal{{ $feedback->id }}"
+                                                data-feedback="Le problème de livraison a été résolu.">Traité</button></td>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal{{ $feedback->id }}" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Feedback de réclamation</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        <h5 class="modal-title" id="exampleModalLabel">Feedback de
+                                                            réclamation</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <p id="modal-text">Feedback de l'administrateur.</p>
-                                                        <p id="modal-text">{{$feedback->response}}</p>
+                                                        <p id="modal-text">{{ $feedback->response }}</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    
-                                @endforeach
-                                
-                            @endif
-                            <td>
-                                <form action="{{route('reclamation.destroy',['reclamation'=>$item->NumReclamation ])}}" method="post" id="deleteForm-{{$item->NumReclamation}}">
-                                  @csrf
-                                  @method('delete')
-                                  {{-- <div class="dropdown-divider"></div> <button type="button" class="dropdown-item text-danger" onclick="confirmation({{$item->NumReclamation}})">Delete</button>  --}}
-                                  <button>Suppr</button>
-                                </form>
-                                <a class="dropdown-item" href="{{route('reclamation.edit',['reclamation'=>$item->NumReclamation ])}}">Edit</a>
-                            </td>
-                        </tr>
-                      @endforeach
+                                    @endforeach
+                                @endif
+                                <td>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#deleteReclamationModal{{ $item->NumReclamation }}">
+                                        Supprimer
+                                    </button>
+                                    <div class="modal" id="deleteReclamationModal{{ $item->NumReclamation }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Confirmation de suppression</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Êtes-vous sûr de vouloir supprimer cette réclamation ?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Annuler</button>
+                                                    <form
+                                                        action="{{ route('reclamation.destroy', ['reclamation' => $item->NumReclamation]) }}"
+                                                        method="post" id="deleteForm-{{ $item->NumReclamation }}">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
-
     @include('footer')
-
-   
 @endsection
-
-
-    
